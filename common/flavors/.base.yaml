@@ -134,7 +134,6 @@ actions:
       - libreelec-alsa-utils
       - radxa-bootutils
       - radxa-firmware
-      - radxa-otgutils
       - radxa-udev
       - rsetup
       - rsetup-config-first-boot

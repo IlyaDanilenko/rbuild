@@ -209,7 +209,7 @@ get_supported_suites() {
         shift
     done
 
-    local SUITES=("bullseye")
+    local SUITES=("bullseye" "jammy")
     echo "${SUITES[@]}"
 }
 

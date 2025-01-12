@@ -26,7 +26,7 @@ on:
 
 jobs:
   query:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     outputs:
       boards: ${{ steps.query.outputs.boards }}
       suites: ${{ steps.query.outputs.suites }}
@@ -43,7 +43,7 @@ jobs:
 
   build-rootfs:
     needs: query
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     strategy:
       max-parallel: 10
       matrix:
@@ -52,17 +52,17 @@ jobs:
         flavors: ${{ fromJSON(needs.query.outputs.flavors )}}
     steps:
       - name: Build ${{ matrix.boards }}_${{ matrix.suites }}_${{ matrix.flavors }}
-        uses: radxa-repo/rbuild@main
+        uses: IlyaDanilenko/rbuild@main
         with:
           board: ${{ matrix.boards }}
           suite: ${{ matrix.suites }}
           flavor: ${{ matrix.flavors }}
-          test-repo: true
+          test-repo: false
           artifacts: true
 
   build-images:
     needs: [ query, build-rootfs ]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     strategy:
       max-parallel: 10
       matrix:
@@ -73,11 +73,11 @@ jobs:
           - boards: rootfs
     steps:
       - name: Build ${{ matrix.boards }}_${{ matrix.suites }}_${{ matrix.flavors }}
-        uses: radxa-repo/rbuild@main
+        uses: IlyaDanilenko/rbuild@main
         with:
           board: ${{ matrix.boards }}
           suite: ${{ matrix.suites }}
           flavor: ${{ matrix.flavors }}
-          test-repo: true
+          test-repo: false
           artifacts: true
           prebuilt-rootfs: true

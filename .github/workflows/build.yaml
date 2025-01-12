@@ -57,7 +57,7 @@ jobs:
           board: ${{ matrix.boards }}
           suite: ${{ matrix.suites }}
           flavor: ${{ matrix.flavors }}
-          test-repo: true
+          test-repo: false
           artifacts: true
 
   build-images:
@@ -78,6 +78,6 @@ jobs:
           board: ${{ matrix.boards }}
           suite: ${{ matrix.suites }}
           flavor: ${{ matrix.flavors }}
-          test-repo: true
+          test-repo: false
           artifacts: true
           prebuilt-rootfs: true

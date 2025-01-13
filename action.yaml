@@ -69,12 +69,12 @@ runs:
       uses: actions/download-artifact@v4
       with:
         name: rootfs_${{ env.suite }}_${{ inputs.flavor }}
-        path: .rootfs
+        path: rootfs
     - name: Build
       shell: bash
       run: |
-        mkdir .output
-        cd .output
+        mkdir output
+        cd output
         sudo ../rbuild ${{ env.options }} --timestamp=${{ inputs.timestamp}} --compress --native-build --shrink ${{ inputs.board }} ${{ env.suite }} ${{ inputs.flavor }}
         if [ -n "$(ls -A ./* 2>/dev/null)" ]
         then
@@ -85,13 +85,13 @@ runs:
       uses: actions/upload-artifact@v4
       with:
         name: ${{ inputs.board }}_${{ env.suite }}_${{ inputs.flavor }}
-        path: .output
+        path: output
     - name: Upload rootfs artifacts
       if: inputs.artifacts == 'true' && inputs.board == 'rootfs'
       uses: actions/upload-artifact@v4
       with:
         name: ${{ inputs.board }}_${{ env.suite }}_${{ inputs.flavor }}
-        path: .rootfs
+        path: rootfs
     - name: Upload image
       if: inputs.release-id != '' && inputs.github-token != '' && inputs.board != 'rootfs'
       uses: xresloader/upload-to-github-release@v1
@@ -99,7 +99,7 @@ runs:
           GITHUB_TOKEN: ${{ inputs.github-token }}
       with:
         release_id: ${{ inputs.release-id }}
-        file: .output/*
+        file: output/*
     - name: Upload rootfs
       if: inputs.release-id != '' && inputs.github-token != '' && inputs.board == 'rootfs'
       uses: xresloader/upload-to-github-release@v1
@@ -107,7 +107,7 @@ runs:
           GITHUB_TOKEN: ${{ inputs.github-token }}
       with:
         release_id: ${{ inputs.release-id }}
-        file: .rootfs/*
+        file: rootfs/*
     - name: Rollback release
       if: failure() && inputs.release-id != '' && inputs.github-token != ''
       uses: author/action-rollback@stable

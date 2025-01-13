@@ -41,7 +41,7 @@ actions:
 
   - action: unpack
     description: Unpack rootfs
-    file: rootfs/{{ $distro }}_{{ $suite }}{{ $repo_prefix }}_base.tar
+    file: system/{{ $distro }}_{{ $suite }}{{ $repo_prefix }}_base.tar
 
   - action: recipe
     description: Install {{ $flavor }} packages
@@ -92,4 +92,4 @@ actions:
 
   - action: pack
     description: Save rootfs
-    file: rootfs/{{ $distro }}_{{ $suite }}{{ $repo_prefix }}_{{ $flavor }}.tar
+    file: system/{{ $distro }}_{{ $suite }}{{ $repo_prefix }}_{{ $flavor }}.tar

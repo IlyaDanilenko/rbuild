@@ -64,12 +64,13 @@ runs:
       run: |
         sudo apt-get update
         sudo apt-get install -y debos
+        mkdir system
     - name: Fetch prebuilt rootfs
       if: inputs.prebuilt-rootfs == 'true'
       uses: actions/download-artifact@v4
       with:
         name: rootfs_${{ env.suite }}_${{ inputs.flavor }}
-        path: rootfs
+        path: system
     - name: Build
       shell: bash
       run: |
@@ -91,7 +92,7 @@ runs:
       uses: actions/upload-artifact@v4
       with:
         name: ${{ inputs.board }}_${{ env.suite }}_${{ inputs.flavor }}
-        path: rootfs
+        path: system
     - name: Upload image
       if: inputs.release-id != '' && inputs.github-token != '' && inputs.board != 'rootfs'
       uses: xresloader/upload-to-github-release@v1
@@ -107,7 +108,7 @@ runs:
           GITHUB_TOKEN: ${{ inputs.github-token }}
       with:
         release_id: ${{ inputs.release-id }}
-        file: rootfs/*
+        file: system/*
     - name: Rollback release
       if: failure() && inputs.release-id != '' && inputs.github-token != ''
       uses: author/action-rollback@stable

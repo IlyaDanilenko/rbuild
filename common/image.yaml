@@ -89,7 +89,7 @@ actions:
 
   - action: unpack
     description: Unpack rootfs
-    file: rootfs/{{ $distro }}_{{ $suite }}{{ $repo_prefix }}_{{ $flavor }}.tar
+    file: system/{{ $distro }}_{{ $suite }}{{ $repo_prefix }}_{{ $flavor }}.tar
 
   - action: filesystem-deploy
     description: Deploying filesystem onto image
